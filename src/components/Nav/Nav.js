@@ -64,6 +64,8 @@ class Nav extends Component {
         );
       })
       .catch(errormsg => {
+        console.log(errormsg);
+
         this.setState({
           errorMsg: errormsg,
           errorToggle: true
@@ -80,49 +82,57 @@ class Nav extends Component {
         this.props.appHandleLogout();
         localStorage.removeItem("jwtToken");
 
-        setAuthJWT(null)
+        setAuthJWT(null);
       }
     );
   };
 
   render() {
     return (
-      <nav id="navigation" className="navbar navbar-dark">
-        <a href="/" className="navbar-brand">
-          Poop
-        </a>
-        {this.state.isAuth ? (
-          <form className="navbar-brand">
-            <p>Logged in as {this.state.loggedinEmail}</p>
-            <button
-              onClick={this.handleLogout}
-              className="btn btn-outline-success my-2 my-sn-0"
-            >
-              Log Out
-            </button>
-          </form>
-        ) : (
-          <form className="navbar-brand" onSubmit={this.handleSubmit}>
-            <input
-              type="text"
-              placeholder="email"
-              name="email"
-              className="form-control mr-sm-2"
-              onChange={this.handleOnCHange}
-            ></input>
-            <input
-              type="text"
-              placeholder="password"
-              name="password"
-              className="form-control mr-sm-2"
-              onChange={this.handleOnCHange}
-            ></input>
-            <button className="btn btn-outline-success my-2 my-sn-0">
-              Sign Up | Sign In
-            </button>
-          </form>
-        )}
-      </nav>
+      <>
+        <nav id="navigation" className="navbar navbar-dark">
+          <a href="/" className="navbar-brand">
+            Poop
+          </a>
+          {this.state.isAuth ? (
+            <form className="navbar-brand">
+              <p>Logged in as {this.state.loggedinEmail}</p>
+              <button
+                onClick={this.handleLogout}
+                className="btn btn-outline-success my-2 my-sn-0"
+              >
+                Log Out
+              </button>
+            </form>
+          ) : (
+            <form className="navbar-brand" onSubmit={this.handleSubmit}>
+              <span
+                style={{ padding: "0px" }}
+                className={this.state.errorToggle ? "alert alert-danger" : ""}
+              >
+                {this.state.errorToggle ? this.state.errorMsg : ""}
+              </span>
+              <input
+                type="text"
+                placeholder="email"
+                name="email"
+                className="form-control mr-sm-2"
+                onChange={this.handleOnCHange}
+              ></input>
+              <input
+                type="text"
+                placeholder="password"
+                name="password"
+                className="form-control mr-sm-2"
+                onChange={this.handleOnCHange}
+              ></input>
+              <button className="btn btn-outline-success my-2 my-sn-0">
+                Sign Up | Sign In
+              </button>
+            </form>
+          )}
+        </nav>
+      </>
     );
   }
 }

@@ -7,9 +7,10 @@ export default class todolist extends Component {
     newTodo: ""
   };
 
-  handleNewTodoSubmit = () => {
-    console.log("poop");
-  };
+  handleNewTodoSubmit = (event) => {
+    event.preventDefault()
+    
+};
 
 
   handleChange = (event) => {
