@@ -9,7 +9,13 @@ export default class todolist extends Component {
 
   handleNewTodoSubmit = (event) => {
     event.preventDefault()
-    
+
+      this.props.appHandleAddNewTodoList(this.state)
+
+      this.setState({
+          newTodo: ''
+      })
+
 };
 
 

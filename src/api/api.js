@@ -1,6 +1,7 @@
 import { Axios } from './Axios'
 import jwt_decode from 'jwt-decode'
 import setAuthJWT from "./setAuthJWT";
+import { promised } from 'q';
 
 export const apiAuth = () => {
     return new Promise ((resolve, reject) =>{
@@ -43,6 +44,40 @@ export const apiHandleSignupLogin = (userInfo) => {
             })
             .catch(error => reject(error.response.data.message))
     })
+}
+
+export const apiHandleAddNewTodoList = (newTask) => {
+    
+    return new Promise((resolve, reject) =>{
+        const token = localStorage.getItem('jwtToken')
+        const decoded = jwt_decode(token)
+
+        const newObj = {
+            todo: newTask,
+            id: decoded.id
+        }
+
+        Axios.post('/todo/createtodo', newObj, axiosConfig)
+            .then(newTodo =>resolve(newTodo.data))
+            .catch(err => reject(err))
+    })
+}
+
+export const apiHandleGetAllTodos = (todo) => {
+    return new Promise((resolve, reject) => {
+        const token = localStorage.getItem('jwtToken')
+        const decoded = jwt_decode(token)
+
+        const todoObj = {
+            todo: todo,
+            id: decoded.id
+        }
+
+        Axios.get(`/todo?id=${decoded.id}`)
+            .then(todos => resolve(todos))
+            .catch(err => reject(err))
+    })
+
 }
 
 const axiosConfig = {

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Nav from './components/Nav/Nav';
 import TodoList from './components/todo/todolist';
-
+import { apiHandleGetAllTodos, apiHandleAddNewTodoList } from './api/api';
 
 class Todo extends Component {
     state = {
@@ -11,8 +11,9 @@ class Todo extends Component {
     }
 
     componentDidUpdate(prevProps, prevState){
-        if (prevState.isAuth === false && this.state.isAuth === true){
-
+        if (this.state.isAuth === true){
+            //! this to call the function, doesn't find it without
+            this.appHandleGetAllTodos()
         }
     }
 
@@ -27,6 +28,18 @@ class Todo extends Component {
         this.setState({
             isAuth: false
         })
+    }
+
+    appHandleAddNewTodoList = (newTodoFromTodoList) => {
+        apiHandleAddNewTodoList(newTodoFromTodoList)
+            .then(createNewTodo => console.log(createNewTodo))
+            .catch(err => console.log(err))
+    }
+
+    appHandleGetAllTodos = (allTodos) => {
+        apiHandleGetAllTodos(allTodos)
+            .then(all => console.log(all))
+            .catch(err => console.log(err))
     }
 
     render() {
@@ -51,7 +64,9 @@ class Todo extends Component {
                         <a href="/">Done</a>
                       </li>
                     </ul>
-                    <TodoList />
+                    <TodoList 
+                         appHandleAddNewTodoList={this.appHandleAddNewTodoList}
+                    />
                   </div>
                 </div>
               </>
