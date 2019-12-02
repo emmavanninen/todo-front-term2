@@ -7,11 +7,13 @@ import { apiHandleGetAllTodos, apiHandleAddNewTodoList } from './api/api';
 
 class Todo extends Component {
     state = {
+        todoLibrary: {},
+        selected: 'all',
         isAuth: false
     }
 
     componentDidUpdate(prevProps, prevState){
-        if (this.state.isAuth === true){
+        if (this.state.isAuth === true && prevState.isAuth === false){
             //! this to call the function, doesn't find it without
             this.appHandleGetAllTodos()
         }
@@ -32,14 +34,33 @@ class Todo extends Component {
 
     appHandleAddNewTodoList = (newTodoFromTodoList) => {
         apiHandleAddNewTodoList(newTodoFromTodoList)
-            .then(createNewTodo => console.log(createNewTodo))
-            .catch(err => console.log(err))
+            .then(createdNewTodo => {
+                console.log('createdNewTodo: ', createdNewTodo)
+                this.setState(({ todoLibrary }) => ({
+                    todoLibrary: {
+                        ...todoLibrary,
+                        ['all']: [...todoLibrary.all, createdNewTodo]
+                    }
+                }), () => {
+                    console.log(this.state)
+                })
+            })
+            .catch(err => {
+                console.log('err: ', err)
+            })
     }
 
-    appHandleGetAllTodos = (allTodos) => {
-        apiHandleGetAllTodos(allTodos)
-            .then(all => console.log(all))
-            .catch(err => console.log(err))
+    appHandleGetAllTodos = () => {
+        apiHandleGetAllTodos()
+            .then(allTodos => {
+                this.setState(({ todoLibrary }) => ({
+                    todoLibrary: {
+                        ...todoLibrary,
+                        ['all']: allTodos.data.todo
+                    }
+                }))
+            })
+            .catch(error => console.log('error: ', error))
     }
 
     render() {

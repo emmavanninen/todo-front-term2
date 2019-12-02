@@ -1,7 +1,6 @@
 import { Axios } from './Axios'
 import jwt_decode from 'jwt-decode'
 import setAuthJWT from "./setAuthJWT";
-import { promised } from 'q';
 
 export const apiAuth = () => {
     return new Promise ((resolve, reject) =>{
@@ -32,6 +31,7 @@ export const apiHandleSignupLogin = (userInfo) => {
     return new Promise((resolve, reject) =>{
         Axios.post('/users/signuplogin', userInfo, axiosConfig)
             .then(result =>{
+                console.log(result)
                 const {token} = result.data
 
                 localStorage.setItem('jwtToken', token)
@@ -68,10 +68,10 @@ export const apiHandleGetAllTodos = (todo) => {
         const token = localStorage.getItem('jwtToken')
         const decoded = jwt_decode(token)
 
-        const todoObj = {
-            todo: todo,
-            id: decoded.id
-        }
+        // const todoObj = {
+        //     todo: todo,
+        //     id: decoded.id
+        // }
 
         Axios.get(`/todo?id=${decoded.id}`)
             .then(todos => resolve(todos))
