@@ -32,6 +32,7 @@ export default class todoList extends Component {
           item={item.todo}
           completed={item.false}
           todoHandleNewEdit={this.props.appHandleNewEdit}
+          todoHandleDelete={this.props.appHandleDelete}
         />
       );
     });

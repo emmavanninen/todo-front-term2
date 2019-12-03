@@ -6,7 +6,8 @@ import TodoList from "./components/todo/todolist";
 import {
   apiHandleGetAllTodos,
   apiHandleAddNewTodoList,
-  apiHandleNewEdit
+  apiHandleNewEdit,
+  apiHandleDelete
 } from "./api/api";
 
 class Todo extends Component {
@@ -74,7 +75,6 @@ class Todo extends Component {
   appHandleNewEdit = (id, newTodo) => {
     apiHandleNewEdit(id, newTodo)
       .then(editedTodo => {
-
         let updated = this.state.todoLibrary.all;
 
         updated = updated.map(item => {
@@ -84,19 +84,26 @@ class Todo extends Component {
           return item;
         });
 
-
-        this.setState(
-            ({ todoLibrary }) => ({
-              todoLibrary: {
-                  ...todoLibrary,
-                  ['all']: updated
-              }
+        this.setState(({ todoLibrary }) => ({
+          todoLibrary: {
+            ...todoLibrary,
+            ["all"]: updated
+          }
         }));
-
       })
       .catch(error => console.log("error: ", error));
   };
 
+  appHandleDelete = (userid, todoid) => {
+      apiHandleDelete(userid, todoid)
+        .then(
+            this.appHandleGetAllTodos()
+        )
+          .catch(error => console.log("error: ", error))
+
+  };
+
+  
   render() {
     return (
       <div className="TodoApp">
@@ -124,6 +131,7 @@ class Todo extends Component {
                   appHandleAddNewTodoList={this.appHandleAddNewTodoList}
                   todoList={this.state.todoLibrary["all"]}
                   appHandleNewEdit={this.appHandleNewEdit}
+                  appHandleDelete={this.appHandleDelete}
                 />
               </div>
             </div>

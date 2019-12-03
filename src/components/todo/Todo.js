@@ -9,12 +9,11 @@ export default class Todo extends Component {
   };
 
   handleEditToggle = () => {
-    // console.log(this.state);
     //! Toggle boolean with state
     this.setState(prevState => {
       return {
         editToggled: !prevState.editToggled,
-          newEditTodo: this.state.currentTodo
+        newEditTodo: this.state.currentTodo
       };
     });
   };
@@ -25,13 +24,13 @@ export default class Todo extends Component {
     });
   };
 
+//   deleteTodo = event => {
+//     console.log('poop');
+//   };
+
   //! name this.props under variables
   render() {
-    const {
-        item,
-        todoHandleNewEdit,
-        id
-    } = this.props
+          const { item, todoHandleNewEdit, todoHandleDelete, id } = this.props;
 
     return (
       <li>
@@ -46,8 +45,8 @@ export default class Todo extends Component {
                 this.state.newEditTodo === this.state.currentTodo ? true : false
               }
               onClick={() => {
-                todoHandleNewEdit(id, this.state.newEditTodo)
-                this.handleEditToggle()
+                todoHandleNewEdit(id, this.state.newEditTodo);
+                this.handleEditToggle();
               }}
             >
               Edit
@@ -64,7 +63,15 @@ export default class Todo extends Component {
               className="buttonClass editbutton"
               onClick={this.handleEditToggle}
             >
-Edit
+              Edit
+            </button>
+            <button
+              className="buttonClass editbutton"
+              onClick={() => {
+                todoHandleDelete(id)
+              }}
+            >
+              Delete
             </button>
           </>
         )}

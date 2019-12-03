@@ -31,7 +31,6 @@ export const apiHandleSignupLogin = userInfo => {
   return new Promise((resolve, reject) => {
     Axios.post("/users/signuplogin", userInfo, axiosConfig)
       .then(result => {
-        console.log(result);
         const { token } = result.data;
 
         localStorage.setItem("jwtToken", token);
@@ -93,6 +92,20 @@ export const apiHandleNewEdit = (id, editedTodo) => {
       .catch(err => reject(err));
   });
 };
+
+export const apiHandleDelete = (todoid) => {
+    return new Promise((resolve, reject) => {
+        const token = localStorage.getItem("jwtToken");
+        const decoded = jwt_decode(token);
+        
+        
+
+        Axios.delete(`/todo/deletetodo/${decoded.id}/${todoid}`)
+            .then(result => resolve(result.data))
+            .catch(err => reject(err));
+    });
+};
+
 
 const axiosConfig = {
   headers: {
