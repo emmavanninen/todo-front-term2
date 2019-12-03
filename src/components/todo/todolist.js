@@ -2,40 +2,55 @@ import React, { Component } from "react";
 import "./todo-style.css";
 import Todo from "./Todo";
 
-export default class todolist extends Component {
+export default class todoList extends Component {
   state = {
     newTodo: ""
   };
 
-  handleNewTodoSubmit = (event) => {
-    event.preventDefault()
+  handleNewTodoSubmit = event => {
+    event.preventDefault();
 
-      this.props.appHandleAddNewTodoList(this.state)
+    this.props.appHandleAddNewTodoList(this.state);
 
-      this.setState({
-          newTodo: ''
-      })
+    this.setState({
+      newTodo: ""
+    });
+  };
 
-};
+  handleChange = event => {
+    this.setState({
+      newTodo: event.target.value
+    });
+  };
 
-
-  handleChange = (event) => {
-      this.setState({
-          newTodo: event.target.value
-      })
-  }
-
+  showTodoList = event => {
+    return this.props.todoList.map(item => {
+      return (
+        <Todo
+          key={item._id}
+          id={item._id}
+          item={item.todo}
+          completed={item.false}
+          todoHandleNewEdit={this.props.appHandleNewEdit}
+        />
+      );
+    });
+  };
 
   render() {
     return (
       <>
         <form onSubmit={this.handleNewTodoSubmit}>
-          <input name="newTodo" value={this.state.newTodo} onChange={this.handleChange}/>
+          <input
+            name="newTodo"
+            value={this.state.newTodo}
+            onChange={this.handleChange}
+          />
 
-          <button>Add</button>
+          <button className="buttonClass">Add new todo</button>
         </form>
-        <ul>
-          <Todo />
+        <ul id="list-of-todos">
+          {this.props.todoList ? this.showTodoList() : null}
         </ul>
       </>
     );

@@ -21,38 +21,18 @@ code {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  width: 100%;
+  /* width: 100vw; */
   align-items: center;
   background-image: url("./images/kelly-sikkema-Oz_J_FXKvIs-unsplash.jpg");
   background-repeat: no-repeat;
-  background-size: 200vh;
+  background-size: 100vw;
 }
 
 #list {
   width: 50vw;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-}
-
-#category {
-  margin-top: 130px;
-}
-
-#category ul {
-  display: flex;
-  justify-content: center;
-  list-style-type: none;
-}
-
-#category ul li {
-  display: inline;
-  cursor: pointer;
-}
-
-#category ul li a {
-  color: black;
-  padding: 8px;
+  /* justify-content: center; */
 }
 
 
@@ -66,3 +46,8 @@ code {
     width: 100%;
     background-color: rgba(68, 68, 68, 0.473);
 }
+
+.navbar-brand {
+    font-size: 10px;
+}
+

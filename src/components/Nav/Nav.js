@@ -92,7 +92,7 @@ class Nav extends Component {
       <>
         <nav id="navigation" className="navbar navbar-dark">
           <a href="/" className="navbar-brand">
-            Poop
+            Todo App
           </a>
           {this.state.isAuth ? (
             <form className="navbar-brand">
