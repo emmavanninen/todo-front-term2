@@ -1,24 +1,24 @@
-.buttonClass{
-    height: 30px;
-    border-radius: 5px;
-    color: white;
-    margin-top: 5px;
-    margin-left: 5px;
-    cursor: pointer;
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-left: 5px;
-    padding-right: 5px;
-    background-color: rgba(110, 126, 124, 0.61);
-    border-color: #6E7E7C;
+.buttonClass {
+  height: 30px;
+  border-radius: 5px;
+  color: rgb(95, 95, 95);
+  margin-top: 5px;
+  margin-left: 5px;
+  cursor: pointer;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: rgba(110, 126, 124, 0.116);
+  border-color: rgba(146, 156, 155, 0.678);
 }
 
-.editbutton{
-    display: none;
+.editbutton {
+  display: none;
 }
 
 input {
-    border-radius: 5px;
+  border-radius: 5px;
 }
 
 #category {
@@ -27,7 +27,7 @@ input {
 
 #category-nav {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   list-style-type: none;
 }
 
@@ -41,53 +41,68 @@ input {
   padding: 8px;
 }
 
-#list-of-todos{
-      width: 70%;
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-    height: 450px;
-    overflow: scroll;
-    scroll-behavior: smooth;
+#list-of-todos {
+  width: 70%;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  height: 450px;
+  overflow: scroll;
+  scroll-behavior: smooth;
 }
 
-#list-of-todos li{
-    padding-bottom: 10px;
+#list-of-todos li {
+  padding-bottom: 10px;
   padding-right: 15px;
   display: flex;
   flex: row;
   justify-content: space-between;
 }
 
-#list-of-todos li:hover{
+#list-of-todos li:hover {
   font-weight: 600;
 }
 
-#list-of-todos li:hover button{
+#list-of-todos li:hover button {
   display: block;
 }
 
-#list-of-todos li button:hover{
+#list-of-todos li button:hover {
   background-color: rgba(69, 78, 77, 0.61) !important;
 }
-
 
 /* todo: doesn't work */
 .buttonClass:focus {
   outline: none !important;
 }
 .buttonClass:active {
-      border-color: #6E7E7C;
+  border-color: #6e7e7c;
 
   outline: none !important;
 }
 
 #list-of-todos li p {
+      cursor: pointer;
     margin: 0;
 }
 
-
 .buttonClass:disabled {
- color: grey;
+  pointer-events: none;
+  color: rgba(128, 128, 128, 0.596);
+  border: rgba(128, 128, 128, 0.596);
+}
+
+.completedline {
+  text-decoration: line-through;
+}
+
+button img {
+  height: 20px;
+  width: auto;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: row;
 }

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import todoList from "../../components/todo/todolist";
+// import todoList from "../../components/todo/todolist";
 
 export default class Todo extends Component {
   state = {
     editToggled: false,
+    // completed: false,
     newEditTodo: this.props.item,
     currentTodo: this.props.item
   };
@@ -24,16 +25,31 @@ export default class Todo extends Component {
     });
   };
 
-//   deleteTodo = event => {
-//     console.log('poop');
-//   };
+  //   handleCompleted = () => {
+  //     this.setState(prevState => {
+  //       return {
+  //         completed: !prevState.completed
+  //       };
+  //     });
+  //   };
+
+  //   deleteTodo = event => {
+  //     console.log('poop');
+  //   };
 
   //! name this.props under variables
   render() {
-          const { item, todoHandleNewEdit, todoHandleDelete, id } = this.props;
+    const {
+      item,
+      completed,
+      todoHandleNewEdit,
+      todoHandleCompleted,
+      todoHandleDelete,
+      id
+    } = this.props;
 
     return (
-      <li>
+        <li key={id}>
         {this.state.editToggled ? (
           //! react fragment
           <>
@@ -51,28 +67,36 @@ export default class Todo extends Component {
             >
               Edit
             </button>
-
             <button className="buttonClass" onClick={this.handleEditToggle}>
               Cancel
             </button>
           </>
         ) : (
           <>
-            <p> {item} </p>
-            <button
-              className="buttonClass editbutton"
-              onClick={this.handleEditToggle}
-            >
-              Edit
-            </button>
-            <button
-              className="buttonClass editbutton"
+            <p
+              className={`${completed === true ? "completedline" : ""}`}
               onClick={() => {
-                todoHandleDelete(id)
+                todoHandleCompleted(id, completed);
               }}
             >
-              Delete
-            </button>
+              {item}
+            </p>
+            <div className="button-group">
+              <button
+                className="buttonClass editbutton"
+                onClick={this.handleEditToggle}
+              >
+                <img src="/edit.png"></img>
+              </button>
+              <button
+                className="buttonClass editbutton"
+                onClick={() => {
+                  todoHandleDelete(id);
+                }}
+              >
+                <img src="/delete.png"></img>
+              </button>
+            </div>
           </>
         )}
       </li>

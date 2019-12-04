@@ -30,8 +30,9 @@ export default class todoList extends Component {
           key={item._id}
           id={item._id}
           item={item.todo}
-          completed={item.false}
+          completed={item.completed}
           todoHandleNewEdit={this.props.appHandleNewEdit}
+          todoHandleCompleted={this.props.appHandleCompleted}
           todoHandleDelete={this.props.appHandleDelete}
         />
       );

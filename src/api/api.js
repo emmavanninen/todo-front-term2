@@ -66,10 +66,10 @@ export const apiHandleGetAllTodos = todo => {
     const token = localStorage.getItem("jwtToken");
     const decoded = jwt_decode(token);
 
-    const todoObj = {
-      todo: todo,
-      id: decoded.id
-    };
+    // const todoObj = {
+    //   todo: todo,
+    //   id: decoded.id
+    // };
 
     Axios.get(`/todo?id=${decoded.id}`)
       .then(todos => resolve(todos))
@@ -101,11 +101,25 @@ export const apiHandleDelete = (todoid) => {
         
 
         Axios.delete(`/todo/deletetodo/${decoded.id}/${todoid}`)
-            .then(result => resolve(result.data))
+            .then(result =>{ 
+                resolve(result.data)})
             .catch(err => reject(err));
     });
 };
 
+export const apiHandleCompleted = (id, bool) => {
+    return new Promise((resolve, reject) => {
+        const completedObj = {
+            id,
+            bool
+        }
+
+        Axios.put(`/todo/completetodo`, completedObj)
+            // .then(result => console.log(result.data))
+            .then(result => resolve(result.data))
+            .catch(err => reject(err));
+    });
+};
 
 const axiosConfig = {
   headers: {

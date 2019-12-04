@@ -7,7 +7,8 @@ import {
   apiHandleGetAllTodos,
   apiHandleAddNewTodoList,
   apiHandleNewEdit,
-  apiHandleDelete
+  apiHandleDelete,
+  apiHandleCompleted
 } from "./api/api";
 
 class Todo extends Component {
@@ -43,7 +44,7 @@ class Todo extends Component {
           ({ todoLibrary }) => ({
             todoLibrary: {
               ...todoLibrary,
-              ["all"]: [...todoLibrary.all, createdNewTodo]
+              "all": [...todoLibrary.all, createdNewTodo]
             }
           }),
           () => {
@@ -65,7 +66,7 @@ class Todo extends Component {
         this.setState(({ todoLibrary }) => ({
           todoLibrary: {
             ...todoLibrary,
-            ["all"]: allTodos.data.todo
+            "all": allTodos.data.todo
           }
         }));
       })
@@ -87,17 +88,46 @@ class Todo extends Component {
         this.setState(({ todoLibrary }) => ({
           todoLibrary: {
             ...todoLibrary,
-            ["all"]: updated
+            "all": updated
           }
         }));
       })
       .catch(error => console.log("error: ", error));
   };
 
+    appHandleCompleted = (id, bool) => {
+        apiHandleCompleted(id, bool)
+            .then(result => {
+                let completedTag = this.state.todoLibrary.all;
+                completedTag = completedTag.map(item => {
+                    if (item._id === id) {
+                        item.completed = result
+                        return item;
+                    }
+                    return item;
+                });
+
+                this.setState(({ todoLibrary }) => ({
+                    todoLibrary: {
+                        ...todoLibrary,
+                        "all": completedTag
+                    }
+                }));
+            })
+            .catch(error => console.log("error: ", error))
+    }
+
   appHandleDelete = (userid, todoid) => {
       apiHandleDelete(userid, todoid)
-        .then(
-            this.appHandleGetAllTodos()
+        .then(result =>{
+            console.log(`deleted`, result);
+            this.setState(({ todoLibrary }) => ({
+                todoLibrary: {
+                    ...todoLibrary,
+                    "all": result
+                }
+            }))
+        }
         )
           .catch(error => console.log("error: ", error))
 
@@ -131,6 +161,7 @@ class Todo extends Component {
                   appHandleAddNewTodoList={this.appHandleAddNewTodoList}
                   todoList={this.state.todoLibrary["all"]}
                   appHandleNewEdit={this.appHandleNewEdit}
+                  appHandleCompleted={this.appHandleCompleted}
                   appHandleDelete={this.appHandleDelete}
                 />
               </div>
