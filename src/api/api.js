@@ -85,41 +85,57 @@ export const apiHandleNewEdit = (id, editedTodo) => {
     const editedTodoObj = {
       id,
       editedTodo
-    }
+    };
 
-      Axios.put("/todo/edittodo", editedTodoObj)
+    Axios.put("/todo/edittodo", editedTodoObj)
       .then(result => resolve(result.data))
       .catch(err => reject(err));
   });
 };
 
-export const apiHandleDelete = (todoid) => {
-    return new Promise((resolve, reject) => {
-        const token = localStorage.getItem("jwtToken");
-        const decoded = jwt_decode(token);
-        
-        
+export const apiHandleDelete = todoid => {
+  return new Promise((resolve, reject) => {
+    const token = localStorage.getItem("jwtToken");
+    const decoded = jwt_decode(token);
 
-        Axios.delete(`/todo/deletetodo/${decoded.id}/${todoid}`)
-            .then(result =>{ 
-                resolve(result.data)})
-            .catch(err => reject(err));
-    });
+    Axios.delete(`/todo/deletetodo/${decoded.id}/${todoid}`)
+      .then(result => {
+        resolve(result.data);
+      })
+      .catch(err => reject(err));
+  });
 };
 
 export const apiHandleCompleted = (id, bool) => {
-    return new Promise((resolve, reject) => {
-        const completedObj = {
-            id,
-            bool
-        }
+    
+  return new Promise((resolve, reject) => {
+    const completedObj = {
+      id,
+      bool
+    };
 
-        Axios.put(`/todo/completetodo`, completedObj)
-            // .then(result => console.log(result.data))
-            .then(result => resolve(result.data))
-            .catch(err => reject(err));
-    });
+    Axios.put(`/todo/completetodo`, completedObj)
+      // .then(result => console.log(result.data))
+      .then(result => resolve(result.data))
+      .catch(err => reject(err));
+  });
 };
+
+// export const apiHandleCompletionLists = (completion) => {
+//     console.log('completion', completion);
+    
+//   return new Promise((resolve, reject) => {
+//     const token = localStorage.getItem("jwtToken");
+//     const decoded = jwt_decode(token);
+
+//       Axios.get(`/todo/getbycompletion/${completion}/${decoded.id}`)
+//       .then(result => {
+//         console.log(`back to front`, result.data);
+          
+//         resolve(result)})
+//       .catch(err => reject(err));
+//   });
+// };
 
 const axiosConfig = {
   headers: {

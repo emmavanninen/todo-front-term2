@@ -44,24 +44,29 @@ input {
 #list-of-todos {
   width: 70%;
   padding-top: 20px;
+  padding-left: 0;
   display: flex;
   flex-direction: column;
   list-style: none;
-  height: 450px;
+  height: 445px;
   overflow: scroll;
   scroll-behavior: smooth;
 }
 
 #list-of-todos li {
-  padding-bottom: 10px;
+    border-radius: 10px;
+  height: fit-content;
+  /* padding-bottom: 10px; */
   padding-right: 15px;
-  display: flex;
-  flex: row;
+  display: grid;
+  grid-template-columns: 10% 70% 20%;
+  grid-template-rows: 1;
   justify-content: space-between;
 }
 
 #list-of-todos li:hover {
   font-weight: 600;
+  background-color: #8599971a;
 }
 
 #list-of-todos li:hover button {
@@ -72,19 +77,22 @@ input {
   background-color: rgba(69, 78, 77, 0.61) !important;
 }
 
-/* todo: doesn't work */
 .buttonClass:focus {
   outline: none !important;
 }
+
 .buttonClass:active {
   border-color: #6e7e7c;
-
   outline: none !important;
 }
 
 #list-of-todos li p {
-      cursor: pointer;
-    margin: 0;
+  padding-top: 8px;
+  cursor: pointer;
+  margin: 0;
+  grid-column: 2;
+  grid-row: 1;
+  min-height: 40px;
 }
 
 .buttonClass:disabled {
@@ -98,11 +106,13 @@ input {
 }
 
 button img {
-  height: 20px;
+  height: 15px;
   width: auto;
 }
 
 .button-group {
+      grid-column: 3;
+  grid-row: 1;
   display: flex;
   flex-direction: row;
 }

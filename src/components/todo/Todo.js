@@ -25,17 +25,14 @@ export default class Todo extends Component {
     });
   };
 
-  //   handleCompleted = () => {
-  //     this.setState(prevState => {
-  //       return {
-  //         completed: !prevState.completed
-  //       };
-  //     });
-  //   };
+    handleCompleted = () => {
+      this.setState(prevState => {
+        return {
+          completed: !prevState.completed
+        };
+      });
+    };
 
-  //   deleteTodo = event => {
-  //     console.log('poop');
-  //   };
 
   //! name this.props under variables
   render() {
@@ -49,7 +46,7 @@ export default class Todo extends Component {
     } = this.props;
 
     return (
-        <li key={id}>
+      <li key={id}>
         {this.state.editToggled ? (
           //! react fragment
           <>
@@ -65,10 +62,18 @@ export default class Todo extends Component {
                 this.handleEditToggle();
               }}
             >
-              Edit
+              <img src="/tick.png" alt="icon"></img>
             </button>
             <button className="buttonClass" onClick={this.handleEditToggle}>
-              Cancel
+              <img src="/go-back.png" alt="icon"></img>
+            </button>
+            <button
+              className="buttonClass editbutton"
+              onClick={() => {
+                todoHandleDelete(id);
+              }}
+            >
+              <img src="/delete.png" alt="icon"></img>
             </button>
           </>
         ) : (
@@ -86,15 +91,7 @@ export default class Todo extends Component {
                 className="buttonClass editbutton"
                 onClick={this.handleEditToggle}
               >
-                <img src="/edit.png"></img>
-              </button>
-              <button
-                className="buttonClass editbutton"
-                onClick={() => {
-                  todoHandleDelete(id);
-                }}
-              >
-                <img src="/delete.png"></img>
+                <img src="/edit.png" alt="icon"></img>
               </button>
             </div>
           </>

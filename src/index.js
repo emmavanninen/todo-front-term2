@@ -44,10 +44,13 @@ class Todo extends Component {
           ({ todoLibrary }) => ({
             todoLibrary: {
               ...todoLibrary,
-              "all": [...todoLibrary.all, createdNewTodo]
+              all: [...todoLibrary.all, createdNewTodo]
             }
           }),
           () => {
+              console.log('poop');
+              
+            //
             // getAllCompleted
             // getAllIncompleted
           }
@@ -61,12 +64,10 @@ class Todo extends Component {
   appHandleGetAllTodos = () => {
     apiHandleGetAllTodos()
       .then(allTodos => {
-        //   console.log(`all`, allTodos.data.todo);
-
         this.setState(({ todoLibrary }) => ({
           todoLibrary: {
             ...todoLibrary,
-            "all": allTodos.data.todo
+            all: allTodos.data.todo
           }
         }));
       })
@@ -88,52 +89,103 @@ class Todo extends Component {
         this.setState(({ todoLibrary }) => ({
           todoLibrary: {
             ...todoLibrary,
-            "all": updated
+            all: updated
           }
         }));
       })
       .catch(error => console.log("error: ", error));
   };
 
-    appHandleCompleted = (id, bool) => {
-        apiHandleCompleted(id, bool)
-            .then(result => {
-                let completedTag = this.state.todoLibrary.all;
-                completedTag = completedTag.map(item => {
-                    if (item._id === id) {
-                        item.completed = result
-                        return item;
-                    }
-                    return item;
-                });
+  appHandleCompleted = (id, bool) => {
+      
+    apiHandleCompleted(id, bool)
+      .then(result => {
+        let completedTag = this.state.todoLibrary.all;
+        completedTag = completedTag.map(item => {
+          if (item._id === id) {
+            item.completed = result;
+            return item;
+          }
+          return item;
+        });
 
-                this.setState(({ todoLibrary }) => ({
-                    todoLibrary: {
-                        ...todoLibrary,
-                        "all": completedTag
-                    }
-                }));
-            })
-            .catch(error => console.log("error: ", error))
-    }
-
-  appHandleDelete = (userid, todoid) => {
-      apiHandleDelete(userid, todoid)
-        .then(result =>{
-            console.log(`deleted`, result);
-            this.setState(({ todoLibrary }) => ({
-                todoLibrary: {
-                    ...todoLibrary,
-                    "all": result
-                }
-            }))
-        }
-        )
-          .catch(error => console.log("error: ", error))
-
+        this.setState(
+          ({ todoLibrary }) => ({
+            todoLibrary: {
+              //! ... "spread"
+              ...todoLibrary,
+              all: completedTag
+            }
+          }),
+          () => {
+              console.log('poop');
+              
+            // updt lib
+          }
+        );
+      })
+      .catch(error => console.log("error: ", error));
   };
 
-  
+  appHandleDelete = (userid, todoid) => {
+    apiHandleDelete(userid, todoid)
+      .then(result => {
+        this.setState(
+          ({ todoLibrary }) => ({
+            todoLibrary: {
+              ...todoLibrary,
+              all: result
+            }
+          }),
+          () => {
+              console.log('poop');
+              
+            // updt lib
+          }
+        );
+      })
+      .catch(error => console.log("error: ", error));
+  };
+
+  appHandleGetByCompletion = completion => {
+    let completeB;
+
+    this.setState({
+      selected: completion
+    });
+
+    if (completion === "all") return;
+    else if (completion === "incompleted") completeB = false;
+    else if (completion === "completed") completeB = true;
+
+    if (
+      !this.state.todoLibrary[completion] ||
+      this.state.todoLibrary[completion].length === 0
+    ) {
+      apiHandleGetAllTodos(completeB)
+        .then(result => {
+          let byCompletion = result.data.todo;
+          console.log(`data before filter`, byCompletion);
+
+          byCompletion = byCompletion.filter(item => {
+            if (item.completed === completeB) {
+              return item;
+            } else return;
+          });
+
+          console.log(`by completion`, byCompletion);
+
+          this.setState(({ todoLibrary }) => ({
+            todoLibrary: {
+              ...todoLibrary,
+              [completion]: byCompletion
+            }
+          }));
+        })
+        .catch(error => console.log("error: ", error));
+    }
+  };
+
   render() {
     return (
       <div className="TodoApp">
@@ -147,19 +199,23 @@ class Todo extends Component {
               <div id="category">
                 <div className="your-todo"></div>
                 <ul id="category-nav">
-                  <li>
-                    <a href="/">All todos</a>
+                  <li onClick={() => this.appHandleGetByCompletion("all")}>
+                    <a href="#">All todos</a>
                   </li>
-                  <li>
-                    <a href="/">Current</a>
+                  <li
+                    onClick={() => this.appHandleGetByCompletion("incompleted")}
+                  >
+                    <a href="#">Current</a>
                   </li>
-                  <li>
-                    <a href="/">Done</a>
+                  <li
+                    onClick={() => this.appHandleGetByCompletion("completed")}
+                  >
+                    <a href="#">Done</a>
                   </li>
                 </ul>
                 <TodoList
                   appHandleAddNewTodoList={this.appHandleAddNewTodoList}
-                  todoList={this.state.todoLibrary["all"]}
+                  todoList={this.state.todoLibrary[this.state.selected]}
                   appHandleNewEdit={this.appHandleNewEdit}
                   appHandleCompleted={this.appHandleCompleted}
                   appHandleDelete={this.appHandleDelete}
